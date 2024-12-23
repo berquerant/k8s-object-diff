@@ -29,6 +29,6 @@ jobs:
           shellcheck -f gcc *.sh
           echo "::remove-matcher owner=shellcheck-matcher::"
       - name: Setup
-        run: ./setup.sh
+        run: sudo ./setup.sh
       - name: Test
         run: ./tests/test.sh
