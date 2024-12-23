@@ -1,0 +1,6 @@
+left: sa.yml
+right: sa_test.yml
+want_out_ids: >-
+  v1>ServiceAccount>test>sa
+want_out_status: 1
+desc: "ServiceAccount with label diff"

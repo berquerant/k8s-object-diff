@@ -1,0 +1,8 @@
+left: left.yml
+right: right.yml
+want_out_ids: >-
+  apps/v1>Deployment>test>nginx-deployment
+  rbac.authorization.k8s.io/v1>RoleBinding>test>read-pods
+  v1>ServiceAccount>default>sa
+want_out_status: 1
+desc: "Mixed diff"

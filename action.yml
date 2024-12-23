@@ -1,0 +1,26 @@
+name: 'K8s object differ'
+author: 'berquerant'
+description: 'Compare manifests for each corresponding object'
+inputs:
+  left:
+    description: 'Left manifest file'
+    required: true
+  right:
+    description: 'Right manifest file'
+    required: true
+  diff:
+    description: 'Diff command'
+    default: 'diff -u'
+outputs:
+  status:
+    description: '0 if left = right, 1 if left != right, otherwise trouble'
+  ids:
+    description: 'List of id of objects with diff, separated by space'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.left }}
+    - ${{ inputs.right }}
+  env:
+    DIFF: ${{ inputs.diff }}
