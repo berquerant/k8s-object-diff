@@ -1,0 +1,84 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    ":label(renovate)",
+    ":prHourlyLimitNone",
+    ":timezone(Asia/Tokyo)",
+    ":rebaseStalePrs",
+    ":disableDependencyDashboard",
+    ":automergePatch",
+    ":automergeDigest",
+    "schedule:weekends"
+  ],
+  "ignorePaths": [
+    "tests/**"
+  ],
+  "github-actions": {
+    "enabled": false
+  },
+  "platformAutomerge": true,
+  "baseBranches": [
+    "main"
+  ],
+  "rangeStrategy": "auto",
+  "digest": {
+    "addLabels": [
+      "digest"
+    ]
+  },
+  "pin": {
+    "addLabels": [
+      "pin"
+    ]
+  },
+  "patch": {
+    "addLabels": [
+      "patch"
+    ]
+  },
+  "minor": {
+    "addLabels": [
+      "minor"
+    ]
+  },
+  "major": {
+    "addLabels": [
+      "major"
+    ]
+  },
+  "packageRules": [
+    {
+      "addLabels": [
+        "docker"
+      ],
+      "matchDatasources": [
+        "docker"
+      ]
+    },
+    {
+      "groupName": "yq",
+      "addLabels": [
+        "yq"
+      ],
+      "matchDepNames": [
+        "mikefarah/yq"
+      ]
+    }
+  ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "fileMatch": [
+        "^Dockerfile$",
+        "^setup.sh$"
+      ],
+      "matchStrings": [
+        "ARG YQ_VERSION=(?<currentValue>.*)",
+        "{YQ_VERSION:-(?<currentValue>.*)}"
+      ],
+      "datasourceTemplate": "github-releases",
+      "depNameTemplate": "mikefarah/yq"
+    }
+  ]
+}
