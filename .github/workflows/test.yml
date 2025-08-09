@@ -1,4 +1,4 @@
-name: test
+name: Test
 
 permissions:
   contents: read
@@ -18,6 +18,48 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Run the action with diff
+        id: diff
+        uses: ./
+        with:
+          left: ./tests/left.yml
+          right: ./tests/right.yml
+      - name: Run the action without diff
+        id: nodiff
+        uses: ./
+        with:
+          left: ./tests/left.yml
+          right: ./tests/left.yml
+      - name: Assert results
+        run: |
+          result=0
+          if [[ "${{ steps.diff.outputs.status }}" != 1 ]] ; then
+            echo "id=diff: want output=1 but got ${{ steps.diff.outputs.status }}"
+            result=1
+          fi
+          if [[ "${{ steps.nodiff.outputs.status }}" != 0 ]] ; then
+            echo "id=nodiff: want output=0 but got ${{ steps.nodiff.outputs.status }}"
+            result=1
+          fi
+          exit "$result"
+
+  build:
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Build container image
+        run: docker build -t k8s-object-diff .
+
+  lint:
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
       - name: Lint Dockerfile
         uses: hadolint/hadolint-action@d292784f8f3eacda47060b259a580467b0ba410c
         with:
@@ -28,7 +70,3 @@ jobs:
         run: |
           shellcheck -f gcc *.sh
           echo "::remove-matcher owner=shellcheck-matcher::"
-      - name: Setup
-        run: sudo ./setup.sh
-      - name: Test
-        run: ./tests/test.sh

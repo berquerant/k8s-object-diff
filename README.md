@@ -22,10 +22,6 @@ Diff command.
 
 Exit status, 0 if left = right, 1 if left != right, otherwise trouble.
 
-### `ids`
-
-List of id of objects with diff, separated by space.
-
 ## Usage
 
 ``` yaml
@@ -42,6 +38,4 @@ jobs:
           right: right.yml
       - name: Show status
         run: echo "status was ${{ steps.objdiff.outputs.status }}"
-      - name: Show ids
-        run: echo "ids was ${{ steps.objdiff.outputs.ids }}"
 ```

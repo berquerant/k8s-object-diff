@@ -55,30 +55,20 @@
       "matchDatasources": [
         "docker"
       ]
-    },
-    {
-      "groupName": "yq",
-      "addLabels": [
-        "yq"
-      ],
-      "matchDepNames": [
-        "mikefarah/yq"
-      ]
     }
   ],
   "customManagers": [
     {
       "customType": "regex",
       "fileMatch": [
-        "^Dockerfile$",
-        "^setup.sh$"
+        "^Dockerfile$"
       ],
       "matchStrings": [
-        "ARG YQ_VERSION=(?<currentValue>.*)",
-        "{YQ_VERSION:-(?<currentValue>.*)}"
+        "ARG K8S_OBJECT_DIFF_GO_VERSION=(?<currentValue>.*)"
       ],
       "datasourceTemplate": "github-releases",
-      "depNameTemplate": "mikefarah/yq"
+      "depNameTemplate": "berquerant/k8s-object-diff-go",
+      "extractVersionTemplate": "^v(?<version>.*)$"
     }
   ]
 }

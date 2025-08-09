@@ -1,6 +1,0 @@
-left: empty.yml
-right: sa.yml
-want_out_ids: >-
-  v1>ServiceAccount>test>sa
-want_out_status: 1
-desc: "Empty and ServiceAccount"
