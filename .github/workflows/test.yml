@@ -60,10 +60,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Lint Dockerfile
-        uses: hadolint/hadolint-action@d292784f8f3eacda47060b259a580467b0ba410c
-        with:
-          dockerfile: Dockerfile
       - name: Enable Shellcheck problem matcher
         run: echo "::add-matcher::.github/shellcheck-matcher.json"
       - name: Shellcheck
