@@ -12,10 +12,6 @@ This action compares manifests for each corresponding object.
 
 **Required** Right manifest file.
 
-### `diff`
-
-Diff command.
-
 ## Outputs
 
 ### `status`
