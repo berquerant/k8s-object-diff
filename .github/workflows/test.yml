@@ -34,6 +34,7 @@ jobs:
         uses: actions/checkout@v4
       - name: Run the action
         id: run
+        continue-on-error: true
         uses: ./
         with:
           left: ${{ matrix.left }}
@@ -42,12 +43,24 @@ jobs:
       - name: Assert the result
         run: |
           result=0
+
           got_status="${{ steps.run.outputs.status }}"
           want_status="${{ matrix.want-status }}"
           if [[ "$got_status" != "$want_status" ]] ; then
             echo "Status: want ${want_status} but got ${got_status}"
             result=1
           fi
+
+          got_outcome="${{ steps.run.outcome }}"
+          want_outcome="success"
+          if [[ "${{ matrix.fail-on-diff }}" == 'true' ]] ; then
+            want_outcome="failure"
+          fi
+          if [[ "$got_outcome" != "$want_outcome" ]] ; then
+            echo "Outcome: want ${want_outcome} but got ${got_outcome}"
+            result=1
+          fi
+
           exit "$result"
 
   build:
