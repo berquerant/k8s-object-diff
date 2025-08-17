@@ -8,6 +8,10 @@ inputs:
   right:
     description: 'Right manifest file'
     required: true
+  fail-on-diff:
+    description: 'Fail the action if a diff is detected'
+    required: false
+    default: 'false'
 outputs:
   status:
     description: '0 if left = right, 1 if left != right, otherwise trouble'
@@ -15,5 +19,6 @@ runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
+    - ${{ inputs.fail-on-diff }}
     - ${{ inputs.left }}
     - ${{ inputs.right }}
