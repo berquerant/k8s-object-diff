@@ -16,6 +16,7 @@ jobs:
     timeout-minutes: 5
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         include:
           - name: Diff exists
