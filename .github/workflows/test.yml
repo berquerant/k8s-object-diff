@@ -28,6 +28,16 @@ jobs:
             right: ./tests/left.yml
             fail-on-diff: false
             want-status: 0
+          - name: Diff exists with fail-on-exit
+            left: ./tests/left.yml
+            right: ./tests/right.yml
+            fail-on-diff: true
+            want-status: 1
+          - name: No diff with fail-on-exit
+            left: ./tests/left.yml
+            right: ./tests/left.yml
+            fail-on-diff: true
+            want-status: 0
     name: ${{ matrix.name }}
     steps:
       - name: Checkout
