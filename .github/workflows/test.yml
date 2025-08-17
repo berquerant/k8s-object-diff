@@ -23,21 +23,25 @@ jobs:
             right: ./tests/right.yml
             fail-on-diff: false
             want-status: 1
+            want-outcome: success
           - name: No diff
             left: ./tests/left.yml
             right: ./tests/left.yml
             fail-on-diff: false
             want-status: 0
+            want-outcome: success
           - name: Diff exists with fail-on-exit
             left: ./tests/left.yml
             right: ./tests/right.yml
             fail-on-diff: true
             want-status: 1
+            want-outcome: failure
           - name: No diff with fail-on-exit
             left: ./tests/left.yml
             right: ./tests/left.yml
             fail-on-diff: true
             want-status: 0
+            want-outcome: success
     name: ${{ matrix.name }}
     steps:
       - name: Checkout
@@ -62,10 +66,7 @@ jobs:
           fi
 
           got_outcome="${{ steps.run.outcome }}"
-          want_outcome="success"
-          if [[ "${{ matrix.fail-on-diff }}" == 'true' ]] ; then
-            want_outcome="failure"
-          fi
+          want_outcome="${{ matrix.want-outcome }}"
           if [[ "$got_outcome" != "$want_outcome" ]] ; then
             echo "Outcome: want ${want_outcome} but got ${got_outcome}"
             result=1
