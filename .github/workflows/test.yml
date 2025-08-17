@@ -41,12 +41,14 @@ jobs:
           fail-on-diff: ${{ matrix.fail-on-diff }}
       - name: Assert the result
         run: |
+          result=0
           got_status="${{ steps.run.outputs.status }}"
           want_status="${{ matrix.want-status }}"
           if [[ "$got_status" != "$want_status" ]] ; then
             echo "Status: want ${want_status} but got ${got_status}"
-            exit 1
+            result=1
           fi
+          exit "$result"
 
   build:
     timeout-minutes: 5
