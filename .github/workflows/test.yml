@@ -15,33 +15,38 @@ jobs:
   test:
     timeout-minutes: 5
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - name: Diff exists
+            left: ./tests/left.yml
+            right: ./tests/right.yml
+            fail-on-diff: false
+            want-status: 1
+          - name: No diff
+            left: ./tests/left.yml
+            right: ./tests/left.yml
+            fail-on-diff: false
+            want-status: 0
+    name: ${{ matrix.name }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Run the action with diff
-        id: diff
+      - name: Run the action
+        id: run
         uses: ./
         with:
-          left: ./tests/left.yml
-          right: ./tests/right.yml
-      - name: Run the action without diff
-        id: nodiff
-        uses: ./
-        with:
-          left: ./tests/left.yml
-          right: ./tests/left.yml
-      - name: Assert results
+          left: ${{ matrix.left }}
+          right: ${{ matrix.right }}
+          fail-on-diff: ${{ matrix.fail-on-diff }}
+      - name: Assert the result
         run: |
-          result=0
-          if [[ "${{ steps.diff.outputs.status }}" != 1 ]] ; then
-            echo "id=diff: want output=1 but got ${{ steps.diff.outputs.status }}"
-            result=1
+          got="${{ steps.run.outputs.status }}"
+          want="${{ matrix.want-status }}"
+          if [[ "$got" != "$want" ]] ; then
+            echo "Want: ${want} but got ${got}"
+            exit 1
           fi
-          if [[ "${{ steps.nodiff.outputs.status }}" != 0 ]] ; then
-            echo "id=nodiff: want output=0 but got ${{ steps.nodiff.outputs.status }}"
-            result=1
-          fi
-          exit "$result"
 
   build:
     timeout-minutes: 5
