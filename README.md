@@ -31,7 +31,7 @@ jobs:
     name: k8s-object-diff
     steps:
       - name: Diff manifests
-        uses: berquerant/k8s-object-diff@v0.2.0
+        uses: berquerant/k8s-object-diff@v0.3.0
         id: objdiff
         with:
           left: left.yml
