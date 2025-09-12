@@ -44,7 +44,6 @@ jobs:
             fail-on-diff: true
             want-status: 0
             want-outcome: success
-    name: ${{ matrix.name }}
     steps:
       - name: Checkout
         uses: actions/checkout@v5
@@ -57,20 +56,20 @@ jobs:
           right: ${{ matrix.right }}
           fail-on-diff: ${{ matrix.fail-on-diff }}
       - name: Assert the result
+        env:
+          GOT_STATUS: ${{ steps.run.outputs.status }}
+          GOT_OUTCOME: ${{ steps.run.outcome }}
+          WANT_STATUS: ${{ matrix.want-status }}
+          WANT_OUTCOME: ${{ matrix.want-outcome }}
         run: |
           result=0
 
-          got_status="${{ steps.run.outputs.status }}"
-          want_status="${{ matrix.want-status }}"
-          if [[ "$got_status" != "$want_status" ]] ; then
-            echo "Status: want ${want_status} but got ${got_status}"
+          if [[ "$GOT_STATUS" != "$WANT_STATUS" ]] ; then
+            echo "Status: want ${WANT_STATUS} but got ${GOT_STATUS}"
             result=1
           fi
-
-          got_outcome="${{ steps.run.outcome }}"
-          want_outcome="${{ matrix.want-outcome }}"
-          if [[ "$got_outcome" != "$want_outcome" ]] ; then
-            echo "Outcome: want ${want_outcome} but got ${got_outcome}"
+          if [[ "$GOT_OUTCOME" != "$WANT_OUTCOME" ]] ; then
+            echo "Outcome: want ${WANT_OUTCOME} but got ${GOT_OUTCOME}"
             result=1
           fi
 
