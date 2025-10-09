@@ -1,15 +1,7 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:recommended",
-    ":label(renovate)",
-    ":prHourlyLimitNone",
-    ":timezone(Asia/Tokyo)",
-    ":rebaseStalePrs",
-    ":disableDependencyDashboard",
-    ":automergePatch",
-    ":automergeDigest",
-    "schedule:weekends"
+    "github>berquerant/renovate-config"
   ],
   "ignorePaths": [
     "tests/**"
@@ -21,32 +13,6 @@
   "baseBranches": [
     "main"
   ],
-  "rangeStrategy": "auto",
-  "digest": {
-    "addLabels": [
-      "digest"
-    ]
-  },
-  "pin": {
-    "addLabels": [
-      "pin"
-    ]
-  },
-  "patch": {
-    "addLabels": [
-      "patch"
-    ]
-  },
-  "minor": {
-    "addLabels": [
-      "minor"
-    ]
-  },
-  "major": {
-    "addLabels": [
-      "major"
-    ]
-  },
   "packageRules": [
     {
       "addLabels": [
