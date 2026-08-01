@@ -3,7 +3,7 @@
 status=0
 fail_on_diff="$1"
 shift
-objdiff --color "$@"
+objdiff -o markdown "$@" >> "$GITHUB_STEP_SUMMARY"
 status="$?"
 echo "status=${status}" >> "$GITHUB_OUTPUT"
 if [[ "$fail_on_diff" == "true" ]] ; then
