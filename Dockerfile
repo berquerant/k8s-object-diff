@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 FROM debian:bookworm-slim AS build
-ARG K8S_OBJECT_DIFF_GO_VERSION=0.9.0
+ARG K8S_OBJECT_DIFF_GO_VERSION=0.11.0
 ARG TARGETARCH=amd64
 
 WORKDIR /work
