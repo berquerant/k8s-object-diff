@@ -88,7 +88,7 @@ jobs:
         with:
           persist-credentials: "false"
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v4.4.1
+        uses: berquerant/reusable-workflows/actions/setup-buildx@v0.10.1
       - name: Build container image
         run: docker build -t k8s-object-diff .
 
@@ -102,9 +102,5 @@ jobs:
         uses: actions/checkout@v7.0.1
         with:
           persist-credentials: "false"
-      - name: Enable Shellcheck problem matcher
-        run: echo "::add-matcher::.github/shellcheck-matcher.json"
-      - name: Shellcheck
-        run: |
-          shellcheck -f gcc *.sh
-          echo "::remove-matcher owner=shellcheck-matcher::"
+      - name: Run ShellCheck
+        uses: berquerant/reusable-workflows/actions/shellcheck@v0.10.1
